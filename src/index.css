@@ -1,0 +1,6 @@
+@import "tailwindcss";
+
+
+.slick-arrow .slick-prev{
+  display: none;
+}

@@ -4,3 +4,11 @@
 .slick-arrow .slick-prev{
   display: none;
 }
+
+/* html, body {
+  overflow-x: hidden;
+} */
+/* 
+* {
+  outline: 1px solid red;
+} */

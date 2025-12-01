@@ -15,6 +15,9 @@ import ProtectedRoute from './Components/ProtectedRoute/ProtectedRoute'
 import ProtectedAuth from './Components/protectedAuth/protectedAuth'
 import Product from './Components/Product/Product'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import ProductDetails from './ProductDetails/ProductDetails'
+// import AdminRoute from './AdminRoute/AdminRoute'
+// import AdminDashboard from './AdminDashboard/AdminDashboard'
 
 
 
@@ -44,7 +47,12 @@ const router = createBrowserRouter([
       { path: "forgot-password", element: <ForgotPassword /> },
       { path: "resetPass", element: <ResetPass /> },
       { path: "ResetCorrect", element: <ResetCorrect /> },
-      { path: "product", element: <Product /> },
+      { path: "product", element: <ProtectedRoute><Product /></ProtectedRoute> },
+      { path: 'productDetails/:id', element: <ProtectedRoute><ProductDetails /></ProtectedRoute> },
+      //    { 
+      //   path: "admin", 
+      //   element: <AdminRoute><AdminDashboard /></AdminRoute> 
+      // },
       { path: "*", element: <h1 className='flex items-center justify-center w-full h-screen text-4xl  text-amber-500 font-bold'>Page Not Found</h1> }
  
    

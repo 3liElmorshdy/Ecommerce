@@ -58,7 +58,7 @@ var settings = {
 
 
 // }, [])
-const {data , isFetching ,isLoading,isError}=useCategories()
+const {data , isFetching ,isLoading,isError ,error}=useCategories()
 
 const allCategories = data?.data.data;
 

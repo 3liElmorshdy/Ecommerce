@@ -2,11 +2,38 @@ import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { Loader } from 'lucide-react';
 import React from 'react';
+import { useContext } from 'react';
 import { useParams } from 'react-router-dom';
+import { cartContext } from '../context/CartContext';
+import { toast } from 'react-toastify';
 
 function ProductDetails() {
   const { id } = useParams();
 
+const {addProductToCart} =  useContext(cartContext)
+
+
+async function handelProductCart(productId){
+ const res = await addProductToCart(productId)
+
+ if(res){
+  console.log(res)
+  console.log("product added to cart")
+  toast.success("product Add to Cart Successfuly",{
+    position:"top-left",
+    // autoClose:5000,
+    // hideProgressBar:true,
+    // closeOnClick:true,
+    // pauseOnHover:true,
+    // draggable:true,
+    // progress:undefined,
+    // theme:"colored",
+  })
+ }
+ else{
+  console.log("error")
+ }
+}
   function getSpecificProduct() {
     return axios.get(`https://ecommerce.routemisr.com/api/v1/products/${id}`);
   }
@@ -28,7 +55,7 @@ function ProductDetails() {
 
   if (isError) {
     return (
-      <div className="flex justify-center items-center min-h-screen">
+      <div className="flex justify-center items-center min-h-screen"> 
         <div className="text-red-600 text-center">
           <p className="text-lg font-semibold">Error loading product</p>
           <p>{error.message}</p>
@@ -38,6 +65,9 @@ function ProductDetails() {
   }
 
   return (
+
+    
+ 
     <div className="max-w-6xl mx-auto p-6">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
     
@@ -138,7 +168,7 @@ function ProductDetails() {
             <button className="w-full bg-blue-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-blue-700 transition duration-200"
             
             
-            onClick={() => console.log('Add to cart:', productDetails._id)
+            onClick={() => handelProductCart(productDetails._id)
               
             }
             >
@@ -149,6 +179,9 @@ function ProductDetails() {
         </div>
       </div>
     </div>
+
+
+
   );
 }
 

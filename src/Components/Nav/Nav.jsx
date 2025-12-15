@@ -1,12 +1,16 @@
 import React, { useContext, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { Menu, X } from "lucide-react";
-import { counterObjProivder } from "../../context/counterContext";
+import { counterObjProivder } from "../../context/CounterContext";
+import { cartContext } from "../../context/CartContext";
+import { FaShoppingCart } from "react-icons/fa";
 
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const { x: token, y: setToken } = useContext(counterObjProivder);
   const navigate = useNavigate();
+
+ const{numOfCartItems}= useContext(cartContext)
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -16,7 +20,7 @@ function Navbar() {
   };
 
   const navLinkClasses = ({ isActive }) =>
-    `hover:underline ${isActive ? "text-yellow-300 font-bold" : ""}`;
+    `hover:underline ${isActive ? "text-yellow-300 font-bold text-center" : ""}`;
 
   return (
     <nav className="bg-blue-800 text-white p-4">
@@ -40,6 +44,18 @@ function Navbar() {
             <NavLink to="/product" className={navLinkClasses}>
               product
             </NavLink>
+     <NavLink to="/cart" className={navLinkClasses}>
+  <div className="relative">
+    <FaShoppingCart size={22} />
+    <span
+      className="absolute -top-2 -right-2 bg-red-500 text-white text-xs 
+                 w-5 h-5 flex items-center justify-center rounded-full shadow-md"
+    >
+      {numOfCartItems}
+    </span>
+  </div>
+</NavLink>
+
             <button
               onClick={handleLogout}
               className="hover:underline text-red-300 hover:text-red-200 transition"
@@ -86,17 +102,39 @@ function Navbar() {
               >
                 About
               </NavLink>
+
+
+              <NavLink to="/cart"  
+                 onClick={() => setIsOpen(false)}
+                 className="hover:underline flex justify-center ">
+              <FaShoppingCart size={20}  />
+              <p  className=" position-absolute
+               bg-red-500 text-white text-xs 
+                 w-5 h-5
+                 flex items-center justify-center
+                 rounded-full shadow-md
+                  top-0 right-0 -translate-y-1/2 ">{numOfCartItems}</p>
+        
+
+              
+
+              
+            </NavLink>
+
+
+
               <NavLink
+
                 to="/parent"
                 onClick={() => setIsOpen(false)}
-                className="hover:underline text-center"
+                className="hover:underline flex justify-center items-center"
               >
                 Parent
               </NavLink>
 
 
                           <NavLink to="/product" 
-                            onClick={() => setIsOpen(false)} className="hover:underline text-center">
+                            onClick={() => setIsOpen(false)} className="hover:underline flex justify-center items-center">
                                  
               product
             </NavLink>

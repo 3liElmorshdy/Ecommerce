@@ -1,7 +1,6 @@
 
 import Parent from './Components/Parent/Parent'
 import Home from './Components/Home/Home'
-import Nav from './Components/Nav/Nav'
 import About from './Components/About/About'
 import Layout from './Components/Layout/Layout'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
@@ -10,12 +9,18 @@ import Register from './Components/Register/Register'
 import ForgotPassword from './Components/ForgetPass/ForgetPass'
 import ResetPass from './Components/ForgetPass/ResetPass/ResetPass'
 import ResetCorrect from './Components/ResetPassCorrect/ResetCorrect'
-import CounterContext from './context/counterContext'
+
+import CounterContext from './context/CounterContext'
+
+
 import ProtectedRoute from './Components/ProtectedRoute/ProtectedRoute'
 import ProtectedAuth from './Components/protectedAuth/protectedAuth'
 import Product from './Components/Product/Product'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import ProductDetails from './ProductDetails/ProductDetails'
+import CartContext from './context/CartContext'
+import { ToastContainer } from 'react-toastify'
+import Cart from './Components/Cart/Cart'
 // import AdminRoute from './AdminRoute/AdminRoute'
 // import AdminDashboard from './AdminDashboard/AdminDashboard'
 
@@ -49,6 +54,7 @@ const router = createBrowserRouter([
       { path: "ResetCorrect", element: <ResetCorrect /> },
       { path: "product", element: <ProtectedRoute><Product /></ProtectedRoute> },
       { path: 'productDetails/:id', element: <ProtectedRoute><ProductDetails /></ProtectedRoute> },
+      { path: 'cart', element: <ProtectedRoute><Cart /></ProtectedRoute> },
       //    { 
       //   path: "admin", 
       //   element: <AdminRoute><AdminDashboard /></AdminRoute> 
@@ -71,8 +77,15 @@ function App() {
  <>
  <CounterContext>
   <QueryClientProvider client={cahce}>
+    <CartContext>
 
-   <RouterProvider router={router}/>
+
+ <RouterProvider router={router}/>
+ <ToastContainer />
+
+    </CartContext>
+
+  
      
   </QueryClientProvider>
            

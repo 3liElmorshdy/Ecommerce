@@ -64,8 +64,12 @@ import { Loader } from 'lucide-react'
 import HomeSlider from '../HomeSlider/HomeSlider'
 import { useQuery } from '@tanstack/react-query'
 import { Link, useNavigate } from 'react-router-dom';
+import { useContext } from 'react';
+import { cartContext } from '../../context/CartContext';
+import { toast } from 'react-toastify';
 
 function Product() {
+ const { addProductToCart , product } = useContext(cartContext);
  const nav = useNavigate()
   // const [allProduct, setAllProduct] = useState([])  
   // const flag = useRef(false)
@@ -88,6 +92,27 @@ function Product() {
   // }, [])
 
 
+async function handelProductCart(productId){
+  console.log(productId)
+ const res = await addProductToCart(productId)
+ if(res) {
+  console.log("tamam")
+    toast.success("product Add to Cart Successfuly",{
+      position:"top-left",
+      // autoClose:5000,
+      // hideProgressBar:true,
+      // closeOnClick:true,
+      // pauseOnHover:true,
+      // draggable:true,
+      // progress:undefined,
+      // theme:"colored",
+    })
+  
+ }
+ else{
+  console.log("someThing is Not Correct")
+ }
+}
 
   function getQueryProduct (){
     return axios.get("https://ecommerce.routemisr.com/api/v1/products");
@@ -130,7 +155,7 @@ if(isError){
             </div>
             <button
               className="absolute   top-0 right-0 mt-4 mr-4  bg-blue-600 text-white px-4 py-2 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 hover:bg-blue-700"
-              onClick={()=>console.log(product._id)}
+              onClick={()=>handelProductCart(product._id)}
  
             >
               Add to Cart

@@ -20,9 +20,12 @@ const navigate =  useNavigate()
     setMessage(null);
 
     try {
+      // Normalize email: trim whitespace and convert to lowercase
+      const normalizedEmail = data.email?.trim().toLowerCase();
+      
       await axios.post(
         "https://ecommerce.routemisr.com/api/v1/auth/forgotPasswords",
-        { email: data.email } 
+        { email: normalizedEmail } 
       );
       setMessage("If your email exists in our system, a reset link has been sent.");
       setValidate(true);
@@ -30,8 +33,10 @@ const navigate =  useNavigate()
         navigate("/resetPass")
       }, 3000);
     } catch (error) {
-      setMessage("Your email is not found in database");
+      const errorMessage = error.response?.data?.message || "Your email is not found in database";
+      setMessage(errorMessage);
       setValidate(false);
+      console.error("Forgot password error:", error.response?.data || error.message);
     }
     setLoading(false);
   };

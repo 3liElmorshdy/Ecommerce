@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
-import { Loader } from 'lucide-react';
-import React from 'react';
+import { Loader, Heart } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
 import { useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import { cartContext } from '../context/CartContext';
@@ -10,29 +10,33 @@ import { toast } from 'react-toastify';
 function ProductDetails() {
   const { id } = useParams();
 
-const {addProductToCart} =  useContext(cartContext)
+const {addProductToCart, addProductToWhishList} =  useContext(cartContext)
 
 
 async function handelProductCart(productId){
- const res = await addProductToCart(productId)
+  if (!productId) {
+    // toast.error("Failed to add product to cart", { position: "top-left" });
+    return;
+  }
+  const res = await addProductToCart(productId)
 
- if(res){
-  console.log(res)
-  console.log("product added to cart")
-  toast.success("product Add to Cart Successfuly",{
-    position:"top-left",
-    // autoClose:5000,
-    // hideProgressBar:true,
-    // closeOnClick:true,
-    // pauseOnHover:true,
-    // draggable:true,
-    // progress:undefined,
-    // theme:"colored",
-  })
+  if(res){
+   console.log(res)
+   console.log("product added to cart")
+   toast.success("product Add to Cart Successfuly",{
+     position:"top-left",
+   })
+  }
+  else{
+  //  toast.error("Failed to add product to cart", { position: "top-left" })
+  }
  }
- else{
-  console.log("error")
- }
+
+async function handelWishlist(productId) {
+  const res = await addProductToWhishList(productId);
+  if (res) {
+    toast.success(res.data?.message || "Added to wishlist");
+  } 
 }
   function getSpecificProduct() {
     return axios.get(`https://ecommerce.routemisr.com/api/v1/products/${id}`);
@@ -44,14 +48,25 @@ async function handelProductCart(productId){
   });
 
   const productDetails = data?.data.data;
+  const [mainImage, setMainImage] = useState(null);
 
-  if (isLoading) {
-    return (
+  useEffect(() => {
+    if (productDetails?.imageCover) {
+      const imageCover = Array.isArray(productDetails.imageCover) 
+        ? productDetails.imageCover[0] 
+        : productDetails.imageCover;
+      setMainImage(imageCover);
+    }
+  }, [productDetails]);
+  
+
+  if (isLoading) { return (
       <div className="flex justify-center items-center min-h-screen">
         <Loader className="animate-spin h-8 w-8 text-blue-500" />
       </div>
     );
   }
+
 
   if (isError) {
     return (
@@ -64,6 +79,24 @@ async function handelProductCart(productId){
     );
   }
 
+  if (!productDetails) {
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        <Loader className="animate-spin h-8 w-8 text-blue-500" />
+      </div>
+    );
+  }
+
+  // Ensure imageCover is treated as a single string, not an array
+  const imageCover = Array.isArray(productDetails.imageCover) 
+    ? productDetails.imageCover[0] 
+    : productDetails.imageCover;
+
+  const allImages = [
+    imageCover,
+    ...(Array.isArray(productDetails.images) ? productDetails.images : [])
+  ].filter(Boolean);
+
   return (
 
     
@@ -73,20 +106,28 @@ async function handelProductCart(productId){
     
         <div className="space-y-4">
           <div className="aspect-square overflow-hidden rounded-lg bg-gray-100">
-            <img
-              src={productDetails.imageCover}
-              alt={productDetails.title}
-              className="w-full h-full object-cover"
-            />
+            {mainImage && (
+              <img
+                src={mainImage}
+                alt={productDetails.title}
+                className="w-full h-full object-cover"
+              />
+            )}
           </div>
-          {productDetails.images && productDetails.images.length > 1 && (
+          {allImages.length > 1 && (
             <div className="grid grid-cols-4 gap-2">
-              {productDetails.images.slice(1).map((img, index) => (
-                <div key={index} className="aspect-square overflow-hidden rounded-lg bg-gray-100">
+              {allImages.map((img, index) => (
+                <div
+                  key={index}
+                  className="aspect-square overflow-hidden rounded-lg bg-gray-100 cursor-pointer"
+                  onClick={() => setMainImage(img)}
+                >
                   <img
                     src={img}
-                    alt={`${productDetails.title} ${index + 2}`}
-                    className="w-full h-full object-cover cursor-pointer hover:opacity-75"
+                    alt={`${productDetails.title} ${index + 1}`}
+                    className={`w-full h-full object-cover hover:opacity-75 ${
+                      mainImage === img ? 'ring-2 ring-blue-500' : ''
+                    }`}
                   />
                 </div>
               ))}
@@ -107,11 +148,11 @@ async function handelProductCart(productId){
 
           <div className="flex items-center space-x-4">
             <span className="text-3xl font-bold text-green-600">
-              ${productDetails.price}
+              {productDetails.price} EGP
             </span>
             {productDetails.priceAfterDiscount && (
               <span className="text-lg text-gray-500 line-through">
-                ${productDetails.priceAfterDiscount}
+                {productDetails.priceAfterDiscount} EGP
               </span>
             )}
           </div>
@@ -148,7 +189,7 @@ async function handelProductCart(productId){
           </div>
 
           <div className="space-y-4">
-            <div className="flex items-center space-x-4">
+            {/* <div className="flex items-center space-x-4">
               <label htmlFor="quantity" className="text-sm font-medium text-gray-700">
                 Quantity:
               </label>
@@ -163,18 +204,24 @@ async function handelProductCart(productId){
                   </option>
                 ))}
               </select>
-            </div>
+            </div> */}
 
-            <button className="w-full bg-blue-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-blue-700 transition duration-200"
-            
-            
-            onClick={() => handelProductCart(productDetails._id)
+            <div className="flex gap-3">
+              <button 
+                className="flex-1 bg-blue-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-blue-700 transition duration-200"
+                onClick={() => handelProductCart(productDetails._id)}
+              >
+                Add to Cart
+              </button>
               
-            }
-            >
-              Add to Cart
-              
-            </button>
+              <button
+                onClick={() => handelWishlist(productDetails._id)}
+                className="px-6 py-3 bg-white text-gray-700 border-2 border-gray-300 rounded-lg font-semibold transition duration-200 hover:bg-gray-50 hover:text-red-500"
+                title="Add to wishlist"
+              >
+                <Heart className="w-6 h-6" />
+              </button>
+            </div>
           </div>
         </div>
       </div>

@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-import { Menu, X } from "lucide-react";
+import { Heart, Menu, X } from "lucide-react";
 import { counterObjProivder } from "../../context/CounterContext";
 import { cartContext } from "../../context/CartContext";
 import { FaShoppingCart } from "react-icons/fa";
@@ -10,7 +10,7 @@ function Navbar() {
   const { x: token, y: setToken } = useContext(counterObjProivder);
   const navigate = useNavigate();
 
- const{numOfCartItems}= useContext(cartContext)
+  const { numOfCartItems, NumberOfWishList } = useContext(cartContext);
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -41,20 +41,41 @@ function Navbar() {
             <NavLink to="/parent" className={navLinkClasses}>
               Parent
             </NavLink>
-            <NavLink to="/product" className={navLinkClasses}>
-              product
+            <NavLink to="/allorders" className={navLinkClasses}>
+              Product
             </NavLink>
-     <NavLink to="/cart" className={navLinkClasses}>
-  <div className="relative">
-    <FaShoppingCart size={22} />
-    <span
-      className="absolute -top-2 -right-2 bg-red-500 text-white text-xs 
-                 w-5 h-5 flex items-center justify-center rounded-full shadow-md"
-    >
-      {numOfCartItems}
-    </span>
-  </div>
-</NavLink>
+            <NavLink to="/myOrders" className={navLinkClasses}>
+              My Orders
+            </NavLink>
+
+            {/* Shopping Cart Icon */}
+            <NavLink to="/cart" className={navLinkClasses}>
+              <div className="relative">
+                <FaShoppingCart size={20} />
+                <span
+                  className="absolute -top-2 -right-2 bg-red-500 text-white text-xs 
+                             min-w-[1rem] h-4 flex items-center justify-center rounded-full shadow-md px-1"
+                >
+                  {numOfCartItems}
+                </span>
+              </div>
+            </NavLink>
+
+            {/* Wishlist Heart Icon */}
+            <NavLink to="/wishlist" className={navLinkClasses}>
+              <div className="relative">
+                <Heart 
+                  size={20} 
+                  className="text-red-500 fill-red-500 hover:scale-110 transition-transform duration-200" 
+                />
+                <span
+                  className="absolute -top-2 -right-2 bg-red-500 text-white text-xs 
+                             min-w-[1rem] h-4 flex items-center justify-center rounded-full shadow-md px-1"
+                >
+                  {NumberOfWishList}
+                </span>
+              </div>
+            </NavLink>
 
             <button
               onClick={handleLogout}
@@ -75,10 +96,7 @@ function Navbar() {
         )}
 
         {/* Burger Icon (visible only on small screens) */}
-        <button
-          onClick={() => setIsOpen(!isOpen)}
-          className="md:hidden"
-        >
+        <button onClick={() => setIsOpen(!isOpen)} className="md:hidden">
           {isOpen ? <X size={28} /> : <Menu size={28} />}
         </button>
       </div>
@@ -103,28 +121,44 @@ function Navbar() {
                 About
               </NavLink>
 
-
-              <NavLink to="/cart"  
-                 onClick={() => setIsOpen(false)}
-                 className="hover:underline flex justify-center ">
-              <FaShoppingCart size={20}  />
-              <p  className=" position-absolute
-               bg-red-500 text-white text-xs 
-                 w-5 h-5
-                 flex items-center justify-center
-                 rounded-full shadow-md
-                  top-0 right-0 -translate-y-1/2 ">{numOfCartItems}</p>
-        
+              {/* Shopping Cart - Mobile */}
+              <NavLink
+                to="/cart"
+                onClick={() => setIsOpen(false)}
+                className="hover:underline flex justify-center"
+              >
+                <div className="relative inline-block">
+                  <FaShoppingCart size={20} />
+                  <span
+                    className="absolute -top-2 -right-2 bg-red-500 text-white text-xs
+                               min-w-[1.25rem] h-5 flex items-center justify-center rounded-full shadow-md px-1"
+                  >
+                    {numOfCartItems}
+                  </span>
+                </div>
+              </NavLink>
 
               
-
-              
-            </NavLink>
-
-
+              <NavLink
+                to="/wishlist"
+                onClick={() => setIsOpen(false)}
+                className="hover:underline flex justify-center"
+              >
+                <div className="relative inline-block">
+                  <Heart 
+                    size={20} 
+                    className="text-red-500 fill-red-500" 
+                  />
+                  <span
+                    className="absolute -top-2 -right-2 bg-red-500 text-white text-xs
+                               min-w-[1.25rem] h-5 flex items-center justify-center rounded-full shadow-md px-1"
+                  >
+                    {NumberOfWishList}
+                  </span>
+                </div>
+              </NavLink>
 
               <NavLink
-
                 to="/parent"
                 onClick={() => setIsOpen(false)}
                 className="hover:underline flex justify-center items-center"
@@ -132,12 +166,22 @@ function Navbar() {
                 Parent
               </NavLink>
 
+              <NavLink
+                to="/allorders"
+                onClick={() => setIsOpen(false)}
+                className="hover:underline flex justify-center items-center"
+              >
+                Product
+              </NavLink>
 
-                          <NavLink to="/product" 
-                            onClick={() => setIsOpen(false)} className="hover:underline flex justify-center items-center">
-                                 
-              product
-            </NavLink>
+              <NavLink
+                to="/myOrders"
+                onClick={() => setIsOpen(false)}
+                className="hover:underline flex justify-center items-center"
+              >
+                My Orders
+              </NavLink>
+
               <button
                 onClick={handleLogout}
                 className="hover:underline text-red-300 hover:text-red-200 transition text-center"

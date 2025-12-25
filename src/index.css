@@ -1,14 +1,25 @@
 @import "tailwindcss";
 
 
-.slick-arrow .slick-prev{
+.slick-arrow .slick-prev {
   display: none;
 }
 
-/* html, body {
-  overflow-x: hidden;
+/* *{
+  outline: 2px solid red;
 } */
-/* 
-* {
-  outline: 1px solid red;
+
+.slick-slider{
+  overflow: hidden;
+} 
+.slick-list{
+   overflow: hidden; 
+}
+/* .slick-dots {
+  bottom: -30px;
+}
+
+.slick-dots li button:before {
+  color: black;
+  font-size: 10px;
 } */

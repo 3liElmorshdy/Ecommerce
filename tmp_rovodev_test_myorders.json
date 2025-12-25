@@ -1,0 +1,27 @@
+{
+  "details": "details",
+  "phone": "01022439056",
+  "city": "mnasoura",
+  "taxPrice": 0,
+  "shippingPrice": 0,
+  "totalOrderPrice": 1795,
+  "paymentMethodType": "cash",
+  "_id": "6944894494b7194cd0dc3ad2",
+  "user": {
+    "_id": "690403a4396c95595e3ab634",
+    "phone": "01067219108"
+  },
+  "cartItems": [
+    {
+      "count": 1,
+      "_id": "694486dd94b7194cd0dc3865",
+      "product": {
+        "_id": "6407f1bcb575d3b90bf95797",
+        "title": "Women's Clothing Item",
+        "category": {
+          "name": "Women's Clothing"
+        }
+      }
+    }
+  ]
+}

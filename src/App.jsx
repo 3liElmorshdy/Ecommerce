@@ -4,6 +4,7 @@ import React, { Suspense, lazy } from 'react'
 
 
 import CounterContext from './context/CounterContext'
+import { createBrowserRouter } from 'react-router-dom'
 const Home = lazy(() => import('./Components/Home/Home'))
 const About = lazy(() => import('./Components/About/About'))
 const Layout = lazy(() => import('./Components/Layout/Layout'))
@@ -22,25 +23,21 @@ const Wishlist = lazy(() => import('./Wishlist/Wishlist'))
 const MyOrders = lazy(() => import('./MyOrders/MyOrders'))
 const ContactUs = lazy(() => import('./Contact-Us/Contact-Us'))
 
-import ProtectedRoute from './Components/ProtectedRoute/ProtectedRoute'
-import ProtectedAuth from './Components/protectedAuth/protectedAuth'
-// import Product from './Components/Product/Product'
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-// Remove direct route component imports
-// import ProductDetails from './ProductDetails/ProductDetails'
-import CartContext from './context/CartContext'
-import { ToastContainer } from 'react-toastify'
-import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import useOnlineStatus from './customHook/useOnlineStatus'
-// import CategoryDetails from './CategoryDetails/CategoryDetails'
-// import SubCategoryDetails from './SubCategoryDetails/SubCategoryDetails'
+// import ProtectedRoute from './Components/ProtectedRoute/ProtectedRoute'
+// import ProtectedAuth from './Components/protectedAuth/protectedAuth'
+// // import Product from './Components/Product/Product'
+// import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+// // Remove direct route component imports
+// // import ProductDetails from './ProductDetails/ProductDetails'
+// import CartContext from './context/CartContext'
+// import { ToastContainer } from 'react-toastify'
+// import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+// import useOnlineStatus from './customHook/useOnlineStatus'
+// // import CategoryDetails from './CategoryDetails/CategoryDetails'
+// // import SubCategoryDetails from './SubCategoryDetails/SubCategoryDetails'
 // import Wishlist from './Wishlist/Wishlist'
 // import MyOrders from './MyOrders/MyOrders'
 // import ContactUs from './Contact-Us/Contact-Us'
-
-// Lazy-loaded route components (must be declared before router)
-
-
 // import { Offline } from 'react-detect-offline'
 // import AdminRoute from './AdminRoute/AdminRoute'
 // import AdminDashboard from './AdminDashboard/AdminDashboard'

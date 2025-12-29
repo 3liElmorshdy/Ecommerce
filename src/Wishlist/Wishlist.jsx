@@ -62,6 +62,12 @@ function Wishlist() {
                   src={product.imageCover} 
                   alt={product.title}
                   className="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-300"
+                  width="1024"
+                  height="1024"
+                  loading="lazy"
+                  decoding="async"
+                  srcSet={`${product.imageCover} 1x, ${product.imageCover} 2x`}
+                  sizes="(min-width:1024px) 25vw, (min-width:768px) 50vw, 100vw"
                 />
                 <div className="absolute top-2 right-2 flex flex-col gap-2">
                   <button

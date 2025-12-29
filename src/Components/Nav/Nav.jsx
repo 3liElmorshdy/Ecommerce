@@ -38,12 +38,10 @@ function Navbar() {
             <NavLink to="/about" className={navLinkClasses}>
               About
             </NavLink>
-            <NavLink to="/parent" className={navLinkClasses}>
-              Parent
+            <NavLink to="/contactUs" className={navLinkClasses}>
+              contactUs
             </NavLink>
-            <NavLink to="/allorders" className={navLinkClasses}>
-              Product
-            </NavLink>
+   
             <NavLink to="/myOrders" className={navLinkClasses}>
               My Orders
             </NavLink>
@@ -61,7 +59,7 @@ function Navbar() {
               </div>
             </NavLink>
 
-            {/* Wishlist Heart Icon */}
+          
             <NavLink to="/wishlist" className={navLinkClasses}>
               <div className="relative">
                 <Heart 
@@ -95,7 +93,6 @@ function Navbar() {
           </div>
         )}
 
-        {/* Burger Icon (visible only on small screens) */}
         <button onClick={() => setIsOpen(!isOpen)} className="md:hidden">
           {isOpen ? <X size={28} /> : <Menu size={28} />}
         </button>
@@ -159,20 +156,13 @@ function Navbar() {
               </NavLink>
 
               <NavLink
-                to="/parent"
+                to="/contactUs"
                 onClick={() => setIsOpen(false)}
                 className="hover:underline flex justify-center items-center"
               >
-                Parent
+                contactUs
               </NavLink>
 
-              <NavLink
-                to="/allorders"
-                onClick={() => setIsOpen(false)}
-                className="hover:underline flex justify-center items-center"
-              >
-                Product
-              </NavLink>
 
               <NavLink
                 to="/myOrders"

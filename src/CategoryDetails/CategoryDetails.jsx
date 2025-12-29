@@ -92,6 +92,11 @@ function CategoryDetails() {
             src={category.image}
             alt={category.name}
             className="mx-auto w-40 h-40 object-cover rounded-lg"
+            width="160"
+            height="160"
+            loading="eager"
+            decoding="async"
+            fetchPriority="high"
           />
           <h2 className="text-2xl font-bold mt-2">{category.name}</h2>
         </div>
@@ -126,6 +131,12 @@ function CategoryDetails() {
                     src={product.imageCover}
                     alt={product.title}
                     className="w-full h-48 object-cover rounded"
+                    width="600"
+                    height="600"
+                    loading="lazy"
+                    decoding="async"
+                    srcSet={`${product.imageCover} 1x, ${product.imageCover} 2x`}
+                    sizes="(min-width:1024px) 25vw, (min-width:768px) 50vw, 100vw"
                   />
                   <h4 className="font-semibold mt-2">{product.title}</h4>
                   <h5 className="text-sm text-gray-700">{product.category?.name}</h5>

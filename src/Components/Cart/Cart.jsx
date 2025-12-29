@@ -276,6 +276,12 @@ if(product && product.length === 0){
                         src={item.product.imageCover}
                         alt={item.product.title}
                         className="w-full md:w-32 h-32 object-cover rounded-lg"
+                        width="128"
+                        height="128"
+                        loading="lazy"
+                        decoding="async"
+                        srcSet={`${item.product.imageCover} 1x, ${item.product.imageCover} 2x`}
+                        sizes="(min-width:768px) 128px, 100vw"
                       />
                     </Link>
 

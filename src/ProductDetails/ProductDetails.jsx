@@ -111,6 +111,13 @@ async function handelWishlist(productId) {
                 src={mainImage}
                 alt={productDetails.title}
                 className="w-full h-full object-cover"
+                width="800"
+                height="800"
+                loading="eager"
+                decoding="async"
+                fetchPriority="high"
+                srcSet={`${mainImage} 1x, ${mainImage} 2x`}
+                sizes="(min-width:1024px) 50vw, 100vw"
               />
             )}
           </div>
@@ -128,6 +135,12 @@ async function handelWishlist(productId) {
                     className={`w-full h-full object-cover hover:opacity-75 ${
                       mainImage === img ? 'ring-2 ring-blue-500' : ''
                     }`}
+                    width="200"
+                    height="200"
+                    loading="lazy"
+                    decoding="async"
+                    srcSet={`${img} 1x, ${img} 2x`}
+                    sizes="(min-width:1024px) 10vw, 25vw"
                   />
                 </div>
               ))}

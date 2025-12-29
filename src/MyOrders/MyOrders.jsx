@@ -117,6 +117,12 @@ function MyOrders() {
                       src={item.product?.imageCover} 
                       alt={item.product?.title}
                       className="w-16 h-16 object-cover rounded"
+                      width="64"
+                      height="64"
+                      loading="lazy"
+                      decoding="async"
+                      srcSet={`${item.product?.imageCover} 1x, ${item.product?.imageCover} 2x`}
+                      sizes="64px"
                     />
                     <div className="flex-1">
                       <h4 className="font-medium text-gray-800">{item.product?.title}</h4>

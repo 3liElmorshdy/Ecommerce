@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+# Disallow admin routes if any
+Disallow: /admin
+
+Sitemap: https://example.com/sitemap.xml

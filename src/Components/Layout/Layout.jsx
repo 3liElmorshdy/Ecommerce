@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { Outlet, useNavigate, useLocation } from 'react-router-dom'
-import Nav from '../Nav/Nav'
+ import Nav from '../Nav/Nav'
 import Footer from '../Footer/Footer'
 import { toast } from 'react-toastify'
 

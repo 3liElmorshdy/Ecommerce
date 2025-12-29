@@ -21,95 +21,50 @@ function Checkout() {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = async (data) => 
-    {
+  const onSubmit = async (data) => {
     if (!product || product.length === 0) {
       toast.error("Your cart is empty!");
       navigate("/cart");
       return;
     }
 
+    if (!cartId) {
+      toast.error("Missing cart ID. Please open your cart and try again.");
+      navigate("/cart");
+      return;
+    }
+
     setIsLoading(true);
 
-    try
-     {
-      let currentCartId = cartId;
-      
-      if (!currentCartId) {
-        const cartRes = await axios.get(
-          "https://ecommerce.routemisr.com/api/v1/cart",
-          { headers: { token } }
-        );
-        currentCartId = cartRes.data.data._id || cartRes.data.cartId;
-            
-   
-      }
+    const shippingAddress = {
+      details: data.address,
+      phone: data.phone,
+      city: data.city,
+    };
 
-      
-      const response = await axios.post(
-        `https://ecommerce.routemisr.com/api/v1/orders/checkout-session/${currentCartId}`,
-        {
-          shippingAddress: {
-            details: data.address,
-            phone: data.phone,
-            city: data.city,
-          },
-        },
-        { headers: {token}, 
-      
-      params:{
-        url:"http://localhost:5173"
-      }
-
-
-    }
-
-
-
+    try {
+      const res = await axios.post(
+        `https://ecommerce.routemisr.com/api/v1/orders/checkout-session/${cartId}?url=${window.location.origin}`,
+        { shippingAddress },
+        { headers: { token } }
       );
 
-
-      
-      if (response.data.session.url) {
-      window.location.href = response.data.session.url;
-
-
-
-      } else {
-        toast.error("Payment session creation failed");
-        setIsLoading(false);
+      const url = res?.data?.session?.url;
+      if (url) {
+        toast.info("Redirecting to payment...", { position: "top-left" });
+        window.location.href = url;
+        return;
       }
-    }
 
-     catch (error) {
-      console.error("Checkout error:", error);
+      toast.error("Unable to start payment. Please try again.");
+      setIsLoading(false);
+    } catch (err) {
       toast.error(
-        error.response?.data?.message || "Failed to process checkout"
+        err?.response?.data?.message || "Payment initialization failed."
       );
       setIsLoading(false);
-
-    
-  
-     }
-
-     
+    }
   };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
   if (!product || product.length === 0) {
     return (
@@ -118,9 +73,7 @@ function Checkout() {
           <h1 className="text-2xl font-bold mb-4 text-gray-800">
             Your cart is empty
           </h1>
-          <p className="text-gray-600 mb-4">
-            Add some products to checkout!
-          </p>
+          <p className="text-gray-600 mb-4">Add some products to checkout!</p>
           <button
             onClick={() => navigate("/cart")}
             className="bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600 transition"
@@ -143,7 +96,7 @@ function Checkout() {
             Order Summary
           </h2>
           <div className="space-y-4 mb-6">
-            {product.map((item) => (
+            {product?.map((item) => (
               <div
                 key={item.product._id}
                 className="flex items-center gap-4 pb-4 border-b border-gray-200"
@@ -152,14 +105,18 @@ function Checkout() {
                   src={item.product.imageCover}
                   alt={item.product.title}
                   className="w-20 h-20 object-cover rounded"
+                  width="80"
+                  height="80"
+                  loading="lazy"
+                  decoding="async"
+                  srcSet={`${item.product.imageCover} 1x, ${item.product.imageCover} 2x`}
+                  sizes="80px"
                 />
                 <div className="flex-1">
                   <h3 className="font-semibold text-gray-800">
                     {item.product.title}
                   </h3>
-                  <p className="text-sm text-gray-600">
-                    Quantity: {item.count}
-                  </p>
+                  <p className="text-sm text-gray-600">Quantity: {item.count}</p>
                   <p className="text-sm font-medium text-gray-800">
                     {(item.price * item.count).toFixed(2)} EGP
                   </p>
@@ -169,9 +126,7 @@ function Checkout() {
           </div>
           <div className="border-t pt-4">
             <div className="flex justify-between items-center mb-2">
-              <span className="text-lg font-semibold text-gray-800">
-                Total:
-              </span>
+              <span className="text-lg font-semibold text-gray-800">Total:</span>
               <span className="text-xl font-bold text-blue-600">
                 {totalCartPrice.toFixed(2)} EGP
               </span>

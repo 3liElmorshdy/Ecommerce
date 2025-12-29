@@ -102,7 +102,7 @@ function CategoryDetails() {
         </div>
       )}
 
-      {/* Products of Category */}
+     
       {products.length > 0 && (
         <div className="mb-6">
           <h3 className="text-xl font-semibold mb-4">Products</h3>
@@ -114,7 +114,7 @@ function CategoryDetails() {
               >
                 <button
                   onClick={() => {
-                    // e.stopPropagation();
+                    
                     handelWishlist(product._id);
                   }}
                   className="absolute top-2 left-2 p-2 bg-white text-gray-600 hover:text-red-500 rounded-full shadow-md z-10 transition-colors"

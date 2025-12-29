@@ -28,6 +28,29 @@ function Navbar() {
         <h1 className="text-2xl font-bold">
           <NavLink to="/">E-Commerce</NavLink>
         </h1>
+<div className="flex justify-between items-center">
+        {/* Small-screen icons (Cart, Wishlist & Burger) */}
+        <div className="flex md:hidden items-center gap-5">
+          <NavLink to="/cart" className="relative">
+            <FaShoppingCart size={20} />
+            <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs min-w-[1.25rem] h-5 flex items-center justify-center rounded-full shadow-md px-1">
+              {numOfCartItems}
+            </span>
+          </NavLink>
+
+          <NavLink to="/wishlist" className="relative">
+            <Heart size={20} className="text-red-500 fill-red-500" />
+            <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs min-w-[1.25rem] h-5 flex items-center justify-center rounded-full shadow-md px-1">
+              {NumberOfWishList}
+            </span>
+          </NavLink>
+
+          <button onClick={() => setIsOpen(!isOpen)} aria-label="Toggle menu">
+            {isOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
+        </div>
+
+        </div>
 
         {/* Desktop Links */}
         {token ? (
@@ -48,11 +71,11 @@ function Navbar() {
 
             {/* Shopping Cart Icon */}
             <NavLink to="/cart" className={navLinkClasses}>
-              <div className="relative">
+              <div className="relative ">
                 <FaShoppingCart size={20} />
                 <span
                   className="absolute -top-2 -right-2 bg-red-500 text-white text-xs 
-                             min-w-[1rem] h-4 flex items-center justify-center rounded-full shadow-md px-1"
+                             min-w-[1rem] h-4 flex items-center justify-center rounded-full shadow-md px-1 "
                 >
                   {numOfCartItems}
                 </span>
@@ -93,9 +116,6 @@ function Navbar() {
           </div>
         )}
 
-        <button onClick={() => setIsOpen(!isOpen)} className="md:hidden">
-          {isOpen ? <X size={28} /> : <Menu size={28} />}
-        </button>
       </div>
 
       {/* Mobile Menu */}
@@ -118,8 +138,8 @@ function Navbar() {
                 About
               </NavLink>
 
-              {/* Shopping Cart - Mobile */}
-              <NavLink
+              {/*  Mobile */}
+              {/* <NavLink
                 to="/cart"
                 onClick={() => setIsOpen(false)}
                 className="hover:underline flex justify-center"
@@ -133,9 +153,9 @@ function Navbar() {
                     {numOfCartItems}
                   </span>
                 </div>
-              </NavLink>
+              </NavLink> */}
 
-              
+{/*               
               <NavLink
                 to="/wishlist"
                 onClick={() => setIsOpen(false)}
@@ -153,7 +173,7 @@ function Navbar() {
                     {NumberOfWishList}
                   </span>
                 </div>
-              </NavLink>
+              </NavLink> */}
 
               <NavLink
                 to="/contactUs"

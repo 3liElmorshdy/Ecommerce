@@ -161,12 +161,16 @@ async function handelWishlist(productId) {
 
           <div className="flex items-center space-x-4">
             <span className="text-3xl font-bold text-green-600">
-              {productDetails.price} EGP
+              {productDetails.priceAfterDiscount} EGP
             </span>
             {productDetails.priceAfterDiscount && (
+
+      
+
               <span className="text-lg text-gray-500 line-through">
-                {productDetails.priceAfterDiscount} EGP
+                {productDetails.price} EGP
               </span>
+              
             )}
           </div>
 
